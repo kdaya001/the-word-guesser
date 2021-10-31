@@ -1,36 +1,42 @@
 var wordLetters = ['F', 'O', 'X'];
+var correctGuessedLetters = [];
 var guessedLetters = [];
 var reward = 0;
 
 function guessLetter(guessedLetter) {
-    console.log(guessedLetters);
     let thisReward = Math.floor(Math.random() * 100 + 1);
     let inWord = false;
 
-    for (let i = 0; i < wordLetters.length; i++) {
-        if (guessedLetter === wordLetters[i]) {
-            guessedLetters[i] = guessedLetter;
-            console.log(
-                `congratulations, you guessed a letter.\n ${guessedLetters}`
-            );
-            inWord = true;
+    if(guessedLetters.includes(String(guessedLetter))) {
+        console.log(guessedLetters);
+        console.log(`you already guessed this ${guessedLetter}`);
+    } else {
+        for (let i = 0; i < wordLetters.length; i++) {
+            if (guessedLetter === wordLetters[i]) {
+                correctGuessedLetters[i] = guessedLetter;
+                console.log(
+                    `congratulations, you guessed a letter.\n ${correctGuessedLetters}`
+                );
+                inWord = true;
+                guessedLetters.push(guessedLetter);
+            }
         }
     }
-    
+
     if(inWord) reward += thisReward;
     else reward -= thisReward;
 }
 
 function setup(wordLetters) {
     for (let i = 0; i < wordLetters.length; i++) {
-        guessedLetters.push('-');
+        correctGuessedLetters.push('-');
     }
 }
 
 setup(wordLetters);
 
-while (guessedLetters.includes(`-`)) {
-    let guess = prompt('Guess a letter');
+while (correctGuessedLetters.includes(`-`)) {
+    let guess = prompt('Guess a letter').toUpperCase();
     guessLetter(guess);
 }
 
